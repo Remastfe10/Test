@@ -2,306 +2,227 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Remawed10-info</title>
-    
-    <!-- Favicon & Touch Icons -->
-    <link rel="icon" href="1.jpg" type="image/jpeg">
-    <link rel="shortcut icon" href="1.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="1.jpg">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        orbitron: ['Orbitron', 'sans-serif'],
-                        rajdhani: ['Rajdhani', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remawed10 Commit</title>
     <style>
-        /* Ottimizzazioni globali per dispositivi mobili */
-        html {
-            -webkit-text-size-adjust: 100%;
-            touch-action: manipulation;
-        }
         body {
-            background-color: #ffffff;
-            color: #111827;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
+            font-family: Arial, sans-serif;
+            /* Sfondo con immagine 1.jpg e overlay scuro per leggibilità */
+            background: linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)), url('1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
-        .gaming-title {
-            font-family: 'Orbitron', sans-serif;
+        .container {
+            width: 100%;
+            max-width: 600px;
         }
-        /* Nasconde le barre di scorrimento sui menu orizzontali mobile ma mantiene lo scroll fluido */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        h2 {
+            text-align: center;
+            color: #ffffff;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .form-group {
+            margin-bottom: 15px;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: rgba(30, 30, 30, 0.9);
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0116ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+        #comments-list {
+            margin-top: 30px;
+        }
+        .comment-card {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 4px solid #6200ee;
+        }
+        .comment-category {
+            font-weight: bold;
+            color: #bb86fc;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .comment-text {
+            font-size: 14px;
+            word-break: break-word;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-gray-200 selection:text-gray-900">
+<body>
 
-    <!-- Navigation Bar -->
-    <header class="w-full border-b border-gray-200 bg-white sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center gap-2">
-            <button onclick="switchView('home')" class="gaming-title font-bold text-base sm:text-lg text-gray-900 tracking-tight hover:text-gray-600 transition-colors shrink-0">
-                Remawed10
-            </button>
-            <div class="flex items-center space-x-2 sm:space-x-4 overflow-hidden">
-                <nav class="flex items-center space-x-3 sm:space-x-6 text-xs sm:text-sm font-medium overflow-x-auto no-scrollbar py-2">
-                    <button onclick="switchView('home')" id="nav-home" class="text-gray-900 hover:text-gray-600 transition-colors pb-1 border-b-2 border-gray-900 whitespace-nowrap">
-                        Home
-                    </button>
-                    <button onclick="switchView('issues')" id="nav-issues" class="text-gray-500 hover:text-gray-900 transition-colors pb-1 border-b-2 border-transparent whitespace-nowrap">
-                        Problemi
-                    </button>
-                    <button onclick="switchView('info')" id="nav-info" class="text-gray-500 hover:text-gray-900 transition-colors pb-1 border-b-2 border-transparent whitespace-nowrap">
-                        Informazioni
-                    </button>
-                    <button onclick="switchView('goals')" id="nav-goals" class="text-gray-500 hover:text-gray-900 transition-colors pb-1 border-b-2 border-transparent whitespace-nowrap">
-                        Cosa vogliamo fare
-                    </button>
-                </nav>
-                
-                <!-- Campanella di Notifica WhatsApp -->
-                <button onclick="showWhatsAppNotification()" class="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors relative shrink-0 active:scale-95" title="Notifiche WhatsApp">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                </button>
-            </div>
+<div class="container">
+    <h2>Remawed10 Commit</h2>
+    
+    <!-- Modulo per inviare il commento -->
+    <form id="comment-form">
+        <div class="form-group">
+            <select id="category" required>
+                <option value="" disabled selected>Seleziona il motivo...</option>
+                <option value="Desiderio">Desiderio</option>
+                <option value="Problemi o bug">Problemi o bug</option>
+                <option value="Consigli">Consigli</option>
+            </select>
         </div>
-    </header>
+        <div class="form-group">
+            <textarea id="message" placeholder="Scrivi il tuo commento..." required></textarea>
+        </div>
+        <button type="submit">Invia Commento</button>
+    </form>
 
-    <!-- Main Content Container -->
-    <main class="flex-grow flex items-center justify-center px-4 py-8 sm:py-12">
+    <!-- Sezione in cui compariranno i commenti -->
+    <div id="comments-list">
+        <h3>Commenti recenti:</h3>
         
-        <!-- HOME VIEW -->
-        <div id="view-home" class="max-w-lg w-full text-center">
-            <!-- Central Image -->
-            <div class="w-28 h-28 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border border-gray-200 shadow-sm mx-auto mb-5 sm:mb-6 bg-gray-50">
-                <img 
-                    src="1.jpg" 
-                    alt="Remawed10 Logo" 
-                    class="w-full h-full object-cover"
-                    onerror="this.onerror=null;this.src='https://placehold.co/300x300/f3f4f6/111827?text=Logo';"
-                >
-            </div>
-
-            <!-- Title -->
-            <h1 class="gaming-title text-2xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-3 sm:mb-4">
-                Remawed10-info
-            </h1>
-
-            <!-- Description (Corrected) -->
-            <p id="hub-description" class="text-gray-600 text-sm sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-md mx-auto px-2">
-                Qui verranno scritti i problemi da risolvere e le missioni di questo "Remawed10". In più, include un sistema limitato di commenti quando si attiva il server (raramente). Se devi commentare errori o desideri, clicca sulla campanella e unisciti al server WhatsApp!
-            </p>
-
-            <!-- Quick Actions -->
-            <div class="flex flex-wrap justify-center gap-2.5 sm:gap-3">
-                <button onclick="switchView('issues')" class="px-5 py-2.5 rounded-xl font-medium text-sm bg-gray-900 text-white hover:bg-gray-800 transition-colors shadow-sm active:scale-95">
-                    Problemi
-                </button>
-                <button onclick="switchView('info')" class="px-5 py-2.5 rounded-xl font-medium text-sm bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors border border-gray-200 active:scale-95">
-                    Informazioni
-                </button>
-                <button onclick="switchView('goals')" class="px-5 py-2.5 rounded-xl font-medium text-sm bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors border border-gray-200 active:scale-95">
-                    Cosa vogliamo fare
-                </button>
-            </div>
+        <!-- Filtro per categoria -->
+        <div class="form-group">
+            <select id="filter-category">
+                <option value="">Tutti i motivi (Mostra tutto)</option>
+                <option value="Desiderio">Desiderio</option>
+                <option value="Problemi o bug">Problemi o bug</option>
+                <option value="Consigli">Consigli</option>
+            </select>
         </div>
 
-        <!-- ISSUES VIEW -->
-        <div id="view-issues" class="max-w-3xl w-full hidden">
-            <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 border-b border-gray-200 pb-4 sm:pb-6">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Problemi</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Elenco dei problemi riscontrati e segnalati.</p>
-                </div>
-                <button onclick="switchView('home')" class="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors active:scale-95">
-                    &larr; Torna alla Home
-                </button>
-            </div>
-
-            <div id="issues-container" class="space-y-4 sm:space-y-6">
-                <!-- Dynamic Content -->
-            </div>
-        </div>
-
-        <!-- INFO VIEW -->
-        <div id="view-info" class="max-w-3xl w-full hidden">
-            <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 border-b border-gray-200 pb-4 sm:pb-6">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Informazioni</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Dettagli e documentazione sui progetti attivi.</p>
-                </div>
-                <button onclick="switchView('home')" class="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors active:scale-95">
-                    &larr; Torna alla Home
-                </button>
-            </div>
-
-            <div id="info-container" class="space-y-4 sm:space-y-6">
-                <!-- Dynamic Content -->
-            </div>
-        </div>
-
-        <!-- GOALS VIEW (Cosa vogliamo fare) -->
-        <div id="view-goals" class="max-w-3xl w-full hidden">
-            <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 border-b border-gray-200 pb-4 sm:pb-6">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Cosa vogliamo fare</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Obiettivi futuri e roadmap del progetto.</p>
-                </div>
-                <button onclick="switchView('home')" class="text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors active:scale-95">
-                    &larr; Torna alla Home
-                </button>
-            </div>
-
-            <div id="goals-container" class="space-y-4 sm:space-y-6">
-                <!-- Dynamic Content -->
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Modal Personalizzato per la Campanella WhatsApp (Ottimizzato Mobile) -->
-    <div id="whatsapp-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-xs sm:max-w-sm w-full p-5 sm:p-6 text-center shadow-2xl border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
-            <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xs">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-            </div>
-            <p id="whatsapp-message" class="text-gray-800 text-xs sm:text-sm font-medium mb-6 leading-relaxed">
-                UNISCITI AL CANALE WHATSAPP PER ESSERE SUPER ATTIVO QUANDO VIENE ATTIVATO IL SERVER!
-            </p>
-            <div class="flex gap-2.5 justify-center">
-                <button onclick="closeWhatsAppModal()" class="flex-1 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors active:scale-95">
-                    Chiudi
-                </button>
-                <a href="https://whatsapp.com/channel/0029VbELUGuHLHQfbWnWOY2L" target="_blank" class="flex-1 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-green-600 text-white hover:bg-green-700 transition-colors shadow-sm text-center active:scale-95">
-                    VAI
-                </a>
-            </div>
-        </div>
+        <div id="comments-container">Caricamento commenti...</div>
     </div>
+</div>
 
-    <!-- Footer -->
-    <footer class="w-full border-t border-gray-200 bg-white py-5 px-4 text-center text-xs text-gray-500">
-        &copy; 2026 Remawed10. Tutti i diritti riservati.
-    </footer>
+<script>
+    // URL del server Flask attivo sul tablet in locale
+    const API_URL = "SCRIVI LA TUA API";
 
-    <!-- JavaScript Data and Logic -->
-    <script>
-        const issuesData = [
-            {
-                title: "Problema dello zoom da dispositivi mobili",
-                description: "PROBLEMA COMUNE (CERCHEREMO DI RISOLVERLO)",
-                text: "In molti siti di questo (Remawed10) c'è un bug mobile per cui, se premi i tasti, arriva uno zoom fastidioso!",
-                image: "0.jpg"
-            }
-        ];
+    // Variabile per conservare tutti i commenti scaricati
+    let allComments = [];
 
-        const infoData = [
-            {
-                title: "Descrizione completa dei progetti",
-                description: "Informazioni generali sulla struttura.",
-                text: "I nostri progetti al momento sono: qualche gioco su Roblox e dei codici per executor, un sito menu per facilitare la creazione dei menu di cibo e il calcolo delle calorie, un sito mobile dove puoi scrivere codice come su PC senza necessariamente averlo o comprarlo con un'anteprima integrata, e un sito di download per Windows dove scaricare facilmente i programmi creati da questo.",
-                image: ""
-            }
-        ];
+    // Funzione per caricare i commenti dal server
+    async function fetchComments() {
+        try {
+            const response = await fetch(API_URL + "/comments");
+            allComments = await response.json();
+            renderComments();
+        } catch (error) {
+            console.error("Errore nel caricamento dei commenti:", error);
+            document.getElementById("comments-container").innerHTML = "<p style='color: #ff5555;'>il server e spento, per sapere quando e acceso vai nel server whatsapp! alla pagina ufficiale Remawed10 info!.</p>";
+        }
+    }
 
-        const goalsData = [
-            {
-                title: "Creare qualsiasi cosa desideri la gente al 100% gratuito",
-                description: "MISSIONE-1 (BETA)",
-                text: "Mandando un piccolo server attivo per pochi giorni che raccoglie tutti i desideri della gente e anche: consigli, problemi, cercheremo di realizzarli se è possibile. L'admin è d'accordo sul fatto che saranno tutti gratuiti; cercheremo di fare questa cosa il più presto possibile. Per notifiche nell'attivazione del server segui il nostro canale WhatsApp cliccando sulla campanella.",
-                image: "67.jpg"
-            }
-        ];
+    // Funzione per mostrare i commenti filtrati in base alla tendina
+    function renderComments() {
+        const container = document.getElementById("comments-container");
+        const selectedFilter = document.getElementById("filter-category").value;
+        container.innerHTML = "";
 
-        function switchView(viewName) {
-            const views = ['home', 'issues', 'info', 'goals'];
-            views.forEach(v => {
-                const el = document.getElementById(`view-${v}`);
-                const navEl = document.getElementById(`nav-${v}`);
-                if (v === viewName) {
-                    el.classList.remove('hidden');
-                    if (navEl) navEl.className = "text-gray-900 hover:text-gray-600 transition-colors pb-1 border-b-2 border-gray-900 whitespace-nowrap";
-                } else {
-                    el.classList.add('hidden');
-                    if (navEl) navEl.className = "text-gray-500 hover:text-gray-900 transition-colors pb-1 border-b-2 border-transparent whitespace-nowrap";
-                }
+        // Filtra i commenti se è stata scelta una categoria
+        let filteredComments = allComments;
+        if (selectedFilter) {
+            filteredComments = allComments.filter(c => c.category === selectedFilter);
+        }
+
+        if (filteredComments.length === 0) {
+            container.innerHTML = "<p>Nessun commento trovato per questo motivo.</p>";
+            return;
+        }
+
+        // Crea le card dei commenti filtrati
+        [...filteredComments].reverse().forEach(c => {
+            const card = document.createElement("div");
+            card.className = "comment-card";
+            card.innerHTML = `
+                <div class="comment-category">${escapeHtml(c.category)}</div>
+                <div class="comment-text">${escapeHtml(c.message)}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Ascolta il cambiamento del filtro per aggiornare la visualizzazione all'istante
+    document.getElementById("filter-category").addEventListener("change", renderComments);
+
+    // Gestione dell'invio del modulo
+    document.getElementById("comment-form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        const category = document.getElementById("category").value;
+        const message = document.getElementById("message").value;
+
+        try {
+            const response = await fetch(API_URL + "/comments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ author: "client", category, message })
             });
 
-            if (viewName === 'issues') renderList('issues-container', issuesData);
-            if (viewName === 'info') renderList('info-container', infoData);
-            if (viewName === 'goals') renderList('goals-container', goalsData);
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function renderList(containerId, dataArray) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-
-            if (dataArray.length === 0) {
-                container.innerHTML = `<div class="text-center py-12 text-gray-500 text-sm">Nessun elemento registrato al momento.</div>`;
-                return;
+            if (response.ok) {
+                document.getElementById("message").value = ""; // Pulisce la textarea
+                document.getElementById("category").selectedIndex = 0; // Resetta la tendina
+                fetchComments(); // Ricarica la lista aggiornata
+            } else if (response.status === 429) {
+                alert("Hai raggiunto il limite massimo di 5 commenti giornalieri.");
+            } else {
+                alert("Errore durante l'invio del commento.");
             }
-
-            dataArray.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = "bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm";
-                
-                let imageHtml = '';
-                if (item.image && item.image.trim() !== '') {
-                    imageHtml = `
-                        <div class="mt-3 mb-3 rounded-xl overflow-hidden border border-gray-200 max-w-full sm:max-w-sm bg-gray-50">
-                            <img src="${item.image}" alt="${item.title}" class="w-full h-auto object-cover" onerror="this.style.display='none'">
-                        </div>
-                    `;
-                }
-
-                card.innerHTML = `
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-gray-100 text-gray-700">#${index + 1}</span>
-                    </div>
-                    <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-1">${item.title}</h3>
-                    <p class="text-xs sm:text-sm font-medium text-gray-600 mb-2.5 sm:mb-3">${item.description}</p>
-                    <p class="text-xs sm:text-sm text-gray-700 leading-relaxed bg-gray-50 p-3.5 sm:p-4 rounded-xl border border-gray-100">${item.text}</p>
-                    ${imageHtml}
-                `;
-                container.appendChild(card);
-            });
+        } catch (error) {
+            console.error("Errore di rete:", error);
+            alert("il server e spento.");
         }
+    });
 
-        function showWhatsAppNotification() {
-            document.getElementById('whatsapp-modal').classList.remove('hidden');
-        }
+    // Funzione di sicurezza per evitare script malevoli nei commenti
+    function escapeHtml(text) {
+        if (!text) return "";
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
 
-        function closeWhatsAppModal() {
-            document.getElementById('whatsapp-modal').classList.add('hidden');
-        }
-    </script>
+    // Carica i commenti all'avvio della pagina
+    fetchComments();
+    
+    // Aggiorna automaticamente i commenti ogni 10 secondi
+    setInterval(fetchComments, 10000);
+</script>
+
 </body>
 </html>
